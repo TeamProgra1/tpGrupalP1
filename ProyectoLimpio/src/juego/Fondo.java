@@ -7,9 +7,9 @@ import entorno.Entorno;
 public class Fondo {
 	Image fondo;
 	public Fondo(){
-		fondo = Herramientas.cargarImagen("fondo.jpeg");
+		fondo = Herramientas.cargarImagen("fondoDelJuego.jpeg");
 	}
 	public void dibujar(Entorno e) {
-		e.dibujarImagen(fondo, 335, 300, 0,1.25);
+		e.dibujarImagen(fondo, 300, 300, 0,1.15);
 	}
 }

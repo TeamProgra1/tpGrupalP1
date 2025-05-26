@@ -12,11 +12,11 @@ import entorno.Herramientas;
 		public Enemigo(double x,double y) {
 			this.x=x;
 			this.y=y;
-			this.imagen2 = Herramientas.cargarImagen("Imagen4.png");
+			this.imagen2 = Herramientas.cargarImagen("MURCIELAGO.gif");
 		}
 		
 		public void dibujar(Entorno e) {
-			e.dibujarImagen(this.imagen2, this.x, this.y, 0,0.2);
+			e.dibujarImagen(this.imagen2, this.x, this.y, 0,0.7);
 		}
 
 }

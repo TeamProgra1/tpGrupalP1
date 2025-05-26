@@ -2,6 +2,8 @@ package juego;
 import entorno.Entorno;
 import entorno.Herramientas;
 import entorno.InterfaceJuego;
+//import juego.NoSeleccionado;
+//import juego.Seleccionado;
 
 public class Juego extends InterfaceJuego
 {
@@ -10,7 +12,9 @@ public class Juego extends InterfaceJuego
 	private Personaje p1;
 	private Enemigo e1;
 	private Fondo f;
-	
+	private Botonera b;
+	//private Seleccionado s;
+	//private NoSeleccionado notS;
 	// Variables y métodos propios de cada grupo
 	// .s..
 	
@@ -21,6 +25,9 @@ public class Juego extends InterfaceJuego
 		this.f = new Fondo();
 		this.p1 = new Personaje(300,400);
 		this.e1 = new Enemigo(100,100);
+		this.b = new Botonera();
+		//this.s = new Seleccionado();
+		//this.notS = new NoSeleccionado();
 		// Inicializar lo que haga falta para el juego
 		// ...
 		
@@ -40,7 +47,10 @@ public class Juego extends InterfaceJuego
 		// Procesamiento de un instante de tiempo
 		// ...
 		this.f.dibujar(entorno);
+		this.b.dibujar(entorno);
+		this.e1.dibujar(entorno);
 		boolean direccion = false;
+		// boolean confirmarSelec = false;
 		if(entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
 			this.p1.mover(-1,0);
 		}
@@ -55,8 +65,14 @@ public class Juego extends InterfaceJuego
 			this.p1.mover(0,-1);
 		}
 		this.p1.dibujar(entorno, direccion);
-		this.e1.dibujar(entorno);
 		
+		/* if(entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO)) {
+			confirmarSelec = true;
+			this.s.dibujar(entorno,confirmarSelec);
+		}else {
+			confirmarSelec = false;
+			this.s.dibujar(entorno, confirmarSelec);
+		}*/
 	}
 	
 
