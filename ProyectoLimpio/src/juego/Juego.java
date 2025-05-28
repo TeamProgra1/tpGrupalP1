@@ -12,6 +12,8 @@ public class Juego extends InterfaceJuego
 	private Botonera b;
 	private Enemigo enemigos[];
 	private Poderes poderes;
+	private Piedra piedra[];
+	private boolean izquierdo,derecho,arriba,abajo;
 	// Variables y métodos propios de cada grupo
 	// .s..
 	
@@ -22,8 +24,14 @@ public class Juego extends InterfaceJuego
 		this.f = new Fondo();
 		this.p1 = new Personaje(300,400);
 		this.b = new Botonera();
-		this.enemigos = new Enemigo[1];
+		this.enemigos = new Enemigo[10];
 		this.poderes = new Poderes();
+		this.piedra = new Piedra[1];
+		this.piedra[0] = new Piedra(200,150);
+		this.izquierdo = false;
+		this.derecho = false;
+		this.arriba = false;
+		this.abajo = false;
 		// Posicion de los Enemigos
 		for (int i = 0; i < enemigos.length ; i++) {
 			int pos = (int) (Math.random()*10);
@@ -67,28 +75,37 @@ public class Juego extends InterfaceJuego
 	{
 		// Procesamiento de un instante de tiempo
 		// ...
-		this.f.dibujar(entorno);
-		this.b.dibujar(entorno);
 		boolean direccion = false;
-		if(entorno.estaPresionada(entorno.TECLA_ARRIBA)) {
+		this.p1.limitarMovimiento();
+		colisionRoca(p1,piedra[0]);
+		if(entorno.estaPresionada(entorno.TECLA_ARRIBA) && !this.arriba) {
 			this.p1.mover(-1,0);
 		}
-		if(entorno.estaPresionada(entorno.TECLA_ABAJO)) {
+		if(entorno.estaPresionada(entorno.TECLA_ABAJO) && !this.abajo) {
 			this.p1.mover(1,0);
 		}
-		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
+		if(entorno.estaPresionada(entorno.TECLA_DERECHA) && !this.derecho) {
 			direccion = true;
 			this.p1.mover(0,1);
 		}
-		if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
+		if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && !this.izquierdo) {
 			this.p1.mover(0,-1);
 		}
-		for (Enemigo e : enemigos) {
-			e.moverHacia(p1.x,p1.y);
-			e.dibujar(entorno);
-		}
+		this.f.dibujar(entorno);
+		this.b.dibujar(entorno);
+		this.piedra[0].dibujar(entorno);
 		this.p1.dibujar(entorno, direccion);
-		this.p1.limitarMovimiento();
+		for (Enemigo e : enemigos) {
+			double aleatorio = Math.random()*10;
+			if (aleatorio < 7) {
+				e.moverHacia(p1.x,p1.y);
+			}else {
+				int x1 = (int)Math.random()* entorno.ancho() - b.fondoBotonera.getWidth(null);
+				int y1 = (int)Math.random()* entorno.alto() - b.fondoBotonera.getHeight(null);
+				e.moverHacia(-p1.x,-p1.y);
+			}
+			e.dibujar(entorno);
+		}		
 		this.poderes.dibujar(entorno);
 		// Seleccion de los poderes:
 		boolean poderActivo = false;
@@ -97,10 +114,28 @@ public class Juego extends InterfaceJuego
 		if(entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO)) {
 			
 		}
+		this.abajo = false;
+		this.arriba = false;
+		this.izquierdo = false;
+		this.derecho = false;
 }
 	public void dibujar(Entorno e) {
 		for (Enemigo e1 : enemigos) {
 			e1.dibujar(entorno);
+		}
+	}
+	void colisionRoca(Personaje p1,Piedra piedra) {
+		if (Math.abs(p1.bordeIzq - piedra.bordeDer) < 2 && p1.bordeSup < piedra.bordeInf && p1.bordeInf > piedra.bordeSup) {
+			this.izquierdo = true;
+		}
+		if (Math.abs(p1.bordeDer - piedra.bordeIzq) < 2 && p1.bordeSup < piedra.bordeInf && p1.bordeInf > piedra.bordeSup) {
+			this.derecho = true;
+		}
+		if (Math.abs(p1.bordeInf - piedra.bordeSup) < 2 && p1.bordeDer > piedra.bordeIzq && p1.bordeIzq < piedra.bordeDer) {
+			this.arriba = true;
+		}
+		if (Math.abs(p1.bordeSup - piedra.bordeInf) < 2 && p1.bordeDer > piedra.bordeIzq && p1.bordeIzq < piedra.bordeDer) {
+			this.abajo = true;
 		}
 	}
 

@@ -6,10 +6,7 @@ import entorno.Entorno;
 import entorno.Herramientas;
 
 public class Poderes {
-	Image imagenPoder1;
-	Image imagenPoder2;
-	Image imagenPoder3;
-	Image imagenPoder4;
+	Image imagenPoder1,imagenPoder2,imagenPoder3,imagenPoder4;
 	public Poderes() {
 		//imagenPoder1 = Herramientas.cargarImagen("Hielo.png");
 		imagenPoder2 = Herramientas.cargarImagen("BotonPoder2.png");
@@ -17,6 +14,6 @@ public class Poderes {
 		imagenPoder4 = Herramientas.cargarImagen("BotonPoder4.png");
 	}
 	public void dibujar(Entorno e) {
-		e.dibujarCirculo(100, 100, 25, Color.RED);
+		//e.dibujarCirculo(100, 100, 25, Color.RED);
 	}
 }

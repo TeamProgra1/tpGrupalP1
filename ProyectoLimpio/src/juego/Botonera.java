@@ -50,9 +50,6 @@ public class Botonera {
 		e.cambiarFont("Arial", 11, Color.DARK_GRAY,1);
 		e.escribirTexto("Mega Bomb", 694, 483);
 		e.dibujarImagen(poder1, 658, 240, 0, 0.1);
-		/*e.dibujarImagen(cruz, 660, 120, 0, 0.05);
-		e.dibujarImagen(cruz, 660, 360, 0, 0.05);
-		e.dibujarImagen(cruz, 660, 480, 0, 0.05);*/
 		
 	}
 }
