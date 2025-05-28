@@ -13,7 +13,7 @@ public class Juego extends InterfaceJuego
 	private Enemigo enemigos[];
 	private Poderes poderes;
 	private Piedra piedra[];
-	private boolean izquierdo,derecho,arriba,abajo;
+	private boolean izq,der,arr,aba;
 	// Variables y métodos propios de cada grupo
 	// .s..
 	
@@ -26,12 +26,15 @@ public class Juego extends InterfaceJuego
 		this.b = new Botonera();
 		this.enemigos = new Enemigo[10];
 		this.poderes = new Poderes();
-		this.piedra = new Piedra[1];
-		this.piedra[0] = new Piedra(200,150);
-		this.izquierdo = false;
-		this.derecho = false;
-		this.arriba = false;
-		this.abajo = false;
+		this.piedra = new Piedra[4];
+		this.piedra[0] = new Piedra(150,200);
+		this.piedra[1] = new Piedra(450,200);
+		this.piedra[2] = new Piedra(450,450);
+		this.piedra[3] = new Piedra(150,450);
+		this.aba = false;
+		this.arr = false;
+		this.der = false;
+		this.izq = false;
 		// Posicion de los Enemigos
 		for (int i = 0; i < enemigos.length ; i++) {
 			int pos = (int) (Math.random()*10);
@@ -56,6 +59,7 @@ public class Juego extends InterfaceJuego
 					enemigos[i] = new Enemigo(x,y);
 				}
 		}
+	}
 		// Inicializar lo que haga falta para el juego
 		// ...
 		
@@ -63,7 +67,6 @@ public class Juego extends InterfaceJuego
 		this.entorno.iniciar();
 				   }
 			}
-		}
 
 	/**
 	 * Durante el juego, el método tick() será ejecutado en cada instante y 
@@ -77,23 +80,37 @@ public class Juego extends InterfaceJuego
 		// ...
 		boolean direccion = false;
 		this.p1.limitarMovimiento();
-		colisionRoca(p1,piedra[0]);
-		if(entorno.estaPresionada(entorno.TECLA_ARRIBA) && !this.arriba) {
+		for(int i = 0; i < piedra.length;i++) {
+			colisionRoca(this.p1,this.piedra[i]);
+		}
+		if(entorno.estaPresionada(entorno.TECLA_ARRIBA) && !this.arr) {
 			this.p1.mover(-1,0);
 		}
-		if(entorno.estaPresionada(entorno.TECLA_ABAJO) && !this.abajo) {
+		if(entorno.estaPresionada(entorno.TECLA_ABAJO) && !this.aba) {
 			this.p1.mover(1,0);
 		}
-		if(entorno.estaPresionada(entorno.TECLA_DERECHA) && !this.derecho) {
+		if(entorno.estaPresionada(entorno.TECLA_DERECHA) && !this.der) {
 			direccion = true;
 			this.p1.mover(0,1);
 		}
-		if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && !this.izquierdo) {
+		if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && !this.izq) {
 			this.p1.mover(0,-1);
 		}
+		
+		// Seleccion de los poderes:
+		/*boolean poderActivo = false;
+		int mouseX = entorno.mouseX();
+		int mouseY = entorno.mouseY();
+		if(entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO)) {
+			
+		}*/
+				
 		this.f.dibujar(entorno);
 		this.b.dibujar(entorno);
 		this.piedra[0].dibujar(entorno);
+		this.piedra[1].dibujar(entorno);
+		this.piedra[2].dibujar(entorno);
+		this.piedra[3].dibujar(entorno);
 		this.p1.dibujar(entorno, direccion);
 		for (Enemigo e : enemigos) {
 			double aleatorio = Math.random()*10;
@@ -105,40 +122,35 @@ public class Juego extends InterfaceJuego
 				e.moverHacia(-p1.x,-p1.y);
 			}
 			e.dibujar(entorno);
-		}		
-		this.poderes.dibujar(entorno);
-		// Seleccion de los poderes:
-		boolean poderActivo = false;
-		int mouseX = entorno.mouseX();
-		int mouseY = entorno.mouseY();
-		if(entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO)) {
-			
 		}
-		this.abajo = false;
-		this.arriba = false;
-		this.izquierdo = false;
-		this.derecho = false;
+		
+		this.poderes.dibujar(entorno);
+		
+		this.aba = false;
+		this.arr = false;
+		this.der = false;
+		this.izq = false;
 }
 	public void dibujar(Entorno e) {
 		for (Enemigo e1 : enemigos) {
 			e1.dibujar(entorno);
 		}
 	}
-	void colisionRoca(Personaje p1,Piedra piedra) {
-		if (Math.abs(p1.bordeIzq - piedra.bordeDer) < 2 && p1.bordeSup < piedra.bordeInf && p1.bordeInf > piedra.bordeSup) {
-			this.izquierdo = true;
+	void colisionRoca(Personaje p1,Piedra p) {
+		if(Math.abs(p1.bordIz - p.bordDe) < 1 && p1.bordSu < p.bordIn && p1.bordIn > p.bordSu){
+			this.izq = true;
 		}
-		if (Math.abs(p1.bordeDer - piedra.bordeIzq) < 2 && p1.bordeSup < piedra.bordeInf && p1.bordeInf > piedra.bordeSup) {
-			this.derecho = true;
+		if(Math.abs(p1.bordDe - p.bordIz) < 1 && p1.bordSu < p.bordIn && p1.bordIn > p.bordSu) {
+			this.der = true;
 		}
-		if (Math.abs(p1.bordeInf - piedra.bordeSup) < 2 && p1.bordeDer > piedra.bordeIzq && p1.bordeIzq < piedra.bordeDer) {
-			this.arriba = true;
+		if(Math.abs(p1.bordIn - p.bordSu) < 1 && p1.bordDe > p.bordIz && p1.bordIz < p.bordDe) {
+			this.aba = true;
 		}
-		if (Math.abs(p1.bordeSup - piedra.bordeInf) < 2 && p1.bordeDer > piedra.bordeIzq && p1.bordeIzq < piedra.bordeDer) {
-			this.abajo = true;
+		if(Math.abs(p1.bordSu - p.bordIn) < 1 && p1.bordDe > p.bordIz && p1.bordIz < p.bordDe) {
+			this.arr = true;
 		}
 	}
-
+	
 	@SuppressWarnings("unused")
 	public static void main(String[] args)
 	{

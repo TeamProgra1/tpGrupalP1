@@ -6,7 +6,7 @@ import entorno.Entorno;
 import entorno.Herramientas;
 
 public class Personaje {
-	double x,y,bordeInf,bordeSup,bordeDer,bordeIzq,escala,alto,ancho;
+	double x,y,alto,ancho,escala,bordIn,bordSu,bordIz,bordDe;
 	Image imagen,imagen2;
 	
 	public Personaje(double x,double y) {
@@ -14,30 +14,30 @@ public class Personaje {
 		this.y=y;
 		this.imagen = Herramientas.cargarImagen("MAGOPOSIZ.png");
 		this.imagen2 = Herramientas.cargarImagen("MAGOPOSDER.png");
-		escala = 0.14;
-		this.alto = this.imagen.getHeight(null)*escala;
-		this.ancho = this.imagen.getWidth(null)*escala;
-		bordeIzq = x - this.ancho/2;
-		bordeDer = x + this.ancho/2;
-		bordeSup = y - this.alto/2;
-		bordeInf = y + this.alto/2;
+		this.escala = 0.14;
+		this.alto = this.imagen.getHeight(null) * this.escala;
+		this.ancho = this.imagen.getWidth(null) * this.escala;
+		this.bordIn = y + this.alto / 2;
+		this.bordSu = y - this.alto / 2;
+		this.bordIz = x - this.ancho / 2;
+		this.bordDe = x + this.ancho / 2;
 	}
 	
 	public void dibujar(Entorno e,boolean a) {
 		if (a == false) {
-			e.dibujarImagen(this.imagen, this.x, this.y, 0,escala);
+			e.dibujarImagen(this.imagen, this.x, this.y, 0,this.escala);
 		}else {
-			e.dibujarImagen(this.imagen2, this.x, this.y, 0,escala);
+			e.dibujarImagen(this.imagen2, this.x, this.y, 0,this.escala);
 		}
 	}
 	
 	public void mover(int vertical,int horizontal) {
 			this.x += horizontal;
 			this.y += vertical;
-			bordeIzq = x - this.ancho/2;
-			bordeDer = x + this.ancho/2;
-			bordeSup = y - this.alto/2;
-			bordeInf = y + this.alto/2;
+			this.bordIn = y + this.alto / 2;
+			this.bordSu = y - this.alto / 2;
+			this.bordIz = x - this.ancho / 2;
+			this.bordDe = x + this.ancho / 2;
 			
 	}
 	public void limitarMovimiento() {
