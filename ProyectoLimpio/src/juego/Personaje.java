@@ -10,6 +10,7 @@ public class Personaje {
 	double y;
 	Image imagen;
 	Image imagen2;
+	Image imagen3;
 	
 	public Personaje(double x,double y) {
 		this.x=x;
@@ -29,5 +30,22 @@ public class Personaje {
 	public void mover(int vertical,int horizontal) {
 			this.x += horizontal;
 			this.y += vertical;
+	}
+	public void limitarMovimiento() {
+		if (this.x >= 550.0) {
+			this.x -= 2;
+		}else {
+			if(this.y >= 550.0) {
+				this.y -= 2;
+			}else {
+				if (this.x <= 50) {
+					this.x += 2;
+				}else {
+					if (this.y <= 50) {
+						this.y += 2;
+					}
+				}
+			}
+		}
 	}
 }

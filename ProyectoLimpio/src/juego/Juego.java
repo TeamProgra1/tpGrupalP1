@@ -8,10 +8,10 @@ public class Juego extends InterfaceJuego
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 	private Personaje p1;
-	private Enemigo e1;
 	private Fondo f;
 	private Botonera b;
 	private Enemigo enemigos[];
+	private Poderes poderes;
 	// Variables y métodos propios de cada grupo
 	// .s..
 	
@@ -21,21 +21,41 @@ public class Juego extends InterfaceJuego
 		this.entorno = new Entorno(this, "DEMO en clase", 800, 600);
 		this.f = new Fondo();
 		this.p1 = new Personaje(300,400);
-		this.e1 = new Enemigo(100,100);
 		this.b = new Botonera();
-		this.enemigos = new Enemigo[50];
+		this.enemigos = new Enemigo[1];
+		this.poderes = new Poderes();
+		// Posicion de los Enemigos
 		for (int i = 0; i < enemigos.length ; i++) {
-		double x = Math.random() * 800;
-		double y = Math.random() * 600;
-		enemigos[i] = new Enemigo(x,y);
+			int pos = (int) (Math.random()*10);
+			int pos2 = (int) (Math.random()*10);
+			if (pos == 0 || pos == 1 || pos == 2 || pos2 == 0 || pos2 == 1 || pos2 == 2) {
+				double x = -50;
+				double y = Math.random() * 560;
+				enemigos[i] = new Enemigo(x,y);
+			}else {
+				if (pos == 3 || pos == 4 || pos == 5|| pos2 == 3 || pos2 == 4 || pos2 == 5) {
+					double x = 570;
+					double y = Math.random() * 800;
+					enemigos[i] = new Enemigo(x,y);
+				}else {
+					if (pos == 6 || pos == 7 || pos == 8|| pos2 == 6 || pos2 == 7 || pos2 == 8) {
+						double x = Math.random()*360;
+						double y = -50;
+						enemigos[i] = new Enemigo(x,y);
+				}else {
+					double x = Math.random() * 480;
+					double y = 650;
+					enemigos[i] = new Enemigo(x,y);
+				}
 		}
 		// Inicializar lo que haga falta para el juego
 		// ...
 		
-
 		// Inicia el juego!
 		this.entorno.iniciar();
-	}
+				   }
+			}
+		}
 
 	/**
 	 * Durante el juego, el método tick() será ejecutado en cada instante y 
@@ -68,6 +88,15 @@ public class Juego extends InterfaceJuego
 			e.dibujar(entorno);
 		}
 		this.p1.dibujar(entorno, direccion);
+		this.p1.limitarMovimiento();
+		this.poderes.dibujar(entorno);
+		// Seleccion de los poderes:
+		boolean poderActivo = false;
+		int mouseX = entorno.mouseX();
+		int mouseY = entorno.mouseY();
+		if(entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO)) {
+			
+		}
 }
 	public void dibujar(Entorno e) {
 		for (Enemigo e1 : enemigos) {

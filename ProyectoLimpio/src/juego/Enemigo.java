@@ -22,6 +22,9 @@ import entorno.Herramientas;
 			double dx = px - this.x;
 		    double dy = py - this.y;
 		    double distancia = Math.sqrt(dx * dx + dy * dy);
+		    double desviacion = 0.2;
+		    dx += (Math.random() - 0.5)*desviacion;
+		    dy += (Math.random() - 0.6)*desviacion;
 
 		    if (distancia > 1) {
 		        double moverX = dx / distancia;
