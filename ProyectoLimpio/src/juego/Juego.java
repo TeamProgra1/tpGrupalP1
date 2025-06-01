@@ -14,7 +14,7 @@ public class Juego extends InterfaceJuego
 	private Piedra piedra[];
 	private boolean izq,der,arr,aba;
 	private BarrasJugador barrasJugador;
-	private boolean poderActivo;
+	private boolean estadoDelPoder;
 	private boolean estaSeleccionado;
 	public double mouseX;
 	public double mouseY;
@@ -38,7 +38,7 @@ public class Juego extends InterfaceJuego
 		this.der = false;
 		this.izq = false;
 		this.estaSeleccionado = false;
-		this.poderActivo = false;
+		this.estadoDelPoder = false;
 		double mouseX = entorno.mouseX();
 		double mouseY = entorno.mouseY();
 		
@@ -114,9 +114,9 @@ public class Juego extends InterfaceJuego
 			}		
 		}
 		seleccionPoderes();
-		if (estaSeleccionado == true && poderActivo == true) {
+		if (estaSeleccionado == true & estadoDelPoder == true) {
 			this.poderes.dibujar(mouseX,mouseY,entorno);
-			poderActivo = false;
+			estadoDelPoder = false;
 		}
 		this.aba = false;
 		this.arr = false;
@@ -143,13 +143,13 @@ public class Juego extends InterfaceJuego
 		}
 	}
 	void seleccionPoderes() {
-		if (entorno.estaPresionado(entorno.BOTON_IZQUIERDO)) {
-	        if (mouseX >= b.x1 && mouseX <= b.x1 + b.ancho1 && mouseY >= b.y1 && mouseY <= b.y1 + b.alto1) {
+		if (entorno.seLevantoBoton(entorno.BOTON_IZQUIERDO)){
+				if (mouseX >= b.x1 && mouseX <= b.ancho  && mouseY >= b.y1 && mouseY <= b.alto) {
 	            this.estaSeleccionado = true;
-	            this.poderActivo = true;
-	        }else {
-	        	this.estaSeleccionado = false;
-	        	this.poderActivo = false;
+	            this.estadoDelPoder = true;
+				}else {
+				this.estadoDelPoder = false;
+	        	this.estaSeleccionado = true;
 	        }
 	    }
 	}

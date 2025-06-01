@@ -8,11 +8,12 @@ import entorno.Herramientas;
 public class Personaje {
 	double x,y,alto,ancho,escala,bordIn,bordSu,bordIz,bordDe;
 	Image imagen,imagen2;
-	int vida,cooldown;
+	int vida,cooldown,energia;
 	
 	public Personaje(double x,double y) {
 		this.cooldown = 0;
 		this.vida = 100;
+		this.energia = 10;
 		this.x=x;
 		this.y=y;
 		this.imagen = Herramientas.cargarImagen("MAGOPOSIZ.png");

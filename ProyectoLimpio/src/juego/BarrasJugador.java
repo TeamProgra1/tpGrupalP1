@@ -28,8 +28,9 @@ public class BarrasJugador {
 						personaje.cooldown--;
 					}
 		}
+		public void Energia(Personaje personaje,boolean usoDelPoder) {
+				if (usoDelPoder == true) {
+					
+				}
+		}
 }
-		/*}
-		public void Energia(Personaje personaje, Poderes poderes) {
-				if 
-		}*/

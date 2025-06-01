@@ -6,17 +6,18 @@ import entorno.Herramientas;
 
 	public class Enemigo {
 		boolean alcanzoAlMago = false;
+		boolean muerto = false;
 		double x,y;
-		Image imagen2;
+		Image murcielago;
 		
 		public Enemigo(double x,double y) {
 			this.x=x;
 			this.y=y;
-			this.imagen2 = Herramientas.cargarImagen("MURCIELAGO.gif");
+			this.murcielago = Herramientas.cargarImagen("MURCIELAGO.gif");
 		}
 		
 		public void dibujar(Entorno e) {
-			e.dibujarImagen(this.imagen2, this.x, this.y, 0,0.41);
+			e.dibujarImagen(this.murcielago, this.x, this.y, 0,0.41);
 		}
 
 		public void moverHacia(double px, double py) {
@@ -35,5 +36,10 @@ import entorno.Herramientas;
 		    }else {
 		    	alcanzoAlMago = true;
 		    }
+		}
+		public void Muerto(Poderes poderes) {
+			if (poderes.alcanzoAlEnemigo(null) == true) {
+				murcielago = null;
+			}
 		}
 	}
