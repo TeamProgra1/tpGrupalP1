@@ -1,13 +1,10 @@
 package juego;
-import java.awt.Color;
 
 import entorno.Entorno;
-import entorno.Herramientas;
 import entorno.InterfaceJuego;
 
 public class Juego extends InterfaceJuego
 {
-	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 	private Personaje p1;
 	private Fondo f;
@@ -17,14 +14,13 @@ public class Juego extends InterfaceJuego
 	private Piedra piedra[];
 	private boolean izq,der,arr,aba;
 	private BarrasJugador barrasJugador;
-	private boolean estadoPoder = false;
-	private boolean estadoAtaque = false;
-	// Variables y métodos propios de cada grupo
-	// .s..
+	private boolean poderActivo;
+	private boolean estaSeleccionado;
+	public double mouseX;
+	public double mouseY;
 	
 	Juego()
 	{
-		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "DEMO en clase", 800, 600);
 		this.f = new Fondo();
 		this.p1 = new Personaje(300,400);
@@ -41,8 +37,10 @@ public class Juego extends InterfaceJuego
 		this.arr = false;
 		this.der = false;
 		this.izq = false;
-		this.estadoPoder = false;
-		this.estadoAtaque = false;
+		this.estaSeleccionado = false;
+		this.poderActivo = false;
+		double mouseX = entorno.mouseX();
+		double mouseY = entorno.mouseY();
 		
 		// Posicion de los Enemigos
 		for (int i = 0; i < enemigos.length ; i++) {
@@ -69,24 +67,11 @@ public class Juego extends InterfaceJuego
 				}
 		}
 	}
-		// Inicializar lo que haga falta para el juego
-		// ...
-		
-		// Inicia el juego!
 		this.entorno.iniciar();
 				   }
 			}
-
-	/**
-	 * Durante el juego, el método tick() será ejecutado en cada instante y 
-	 * por lo tanto es el método más importante de esta clase. Aquí se debe 
-	 * actualizar el estado interno del juego para simular el paso del tiempo 
-	 * (ver el enunciado del TP para mayor detalle).
-	 */
 	public void tick()
 	{
-		// Procesamiento de un instante de tiempo
-		// ...
 		boolean direccion = false;
 		this.p1.limitarMovimiento();
 		for(int i = 0; i < piedra.length;i++) {
@@ -106,30 +91,33 @@ public class Juego extends InterfaceJuego
 			this.p1.mover(0,-1);
 		}	
 		this.f.dibujar(entorno);
-		this.b.dibujar(entorno);
+		this.b.dibujar(705,200,705,300,entorno);
 		this.piedra[0].dibujar(entorno);
 		this.piedra[1].dibujar(entorno);
 		this.piedra[2].dibujar(entorno);
 		this.piedra[3].dibujar(entorno);
 		this.p1.dibujar(entorno, direccion);
+		this.barrasJugador.dibujar(entorno);
 		for (Enemigo e : enemigos) {
 			double aleatorio = Math.random()*10;
 			if (aleatorio < 7) {
 				e.moverHacia(p1.x,p1.y);
-				e.alcanzoAlJugador(e.x, e.y, estadoAtaque);
-				if (e.estadoAtaque == true) {
-					barrasJugador.quitarVida(entorno);
 				}
-			}else {
+			else {
 				int x1 = (int)Math.random()* entorno.ancho() - b.fondoBotonera.getWidth(null);
 				int y1 = (int)Math.random()* entorno.alto() - b.fondoBotonera.getHeight(null);
 				e.moverHacia(-p1.x,-p1.y);
 			}
 			e.dibujar(entorno);
+			if (e.alcanzoAlMago == true) {
+				this.barrasJugador.bajaLaVida(p1, e, entorno);
+			}		
 		}
-		this.barrasJugador.dibujar(entorno);
-		this.poderes.dibujar(entorno);
-		
+		seleccionPoderes();
+		if (estaSeleccionado == true && poderActivo == true) {
+			this.poderes.dibujar(mouseX,mouseY,entorno);
+			poderActivo = false;
+		}
 		this.aba = false;
 		this.arr = false;
 		this.der = false;
@@ -154,12 +142,16 @@ public class Juego extends InterfaceJuego
 			this.arr = true;
 		}
 	}
-	public void seleccionarBoton() {
-		if (entorno.mouseX() >= 705 - b.ancho / 2 && entorno.mouseX() <= 705 + b.ancho / 2 &&
-				entorno.mouseY() >= 120 - b.alto / 2 && entorno.mouseY() <= 120 + b.alto / 2 &&
-			    entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO)) {
-			entorno.dibujarRectangulo(705, 120, b.alto,b.ancho, 0, Color.WHITE);
-		}
+	void seleccionPoderes() {
+		if (entorno.estaPresionado(entorno.BOTON_IZQUIERDO)) {
+	        if (mouseX >= b.x1 && mouseX <= b.x1 + b.ancho1 && mouseY >= b.y1 && mouseY <= b.y1 + b.alto1) {
+	            this.estaSeleccionado = true;
+	            this.poderActivo = true;
+	        }else {
+	        	this.estaSeleccionado = false;
+	        	this.poderActivo = false;
+	        }
+	    }
 	}
 	
 	@SuppressWarnings("unused")

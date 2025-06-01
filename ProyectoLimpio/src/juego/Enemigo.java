@@ -5,7 +5,7 @@ import entorno.Entorno;
 import entorno.Herramientas;
 
 	public class Enemigo {
-		boolean estadoAtaque;
+		boolean alcanzoAlMago = false;
 		double x,y;
 		Image imagen2;
 		
@@ -16,7 +16,7 @@ import entorno.Herramientas;
 		}
 		
 		public void dibujar(Entorno e) {
-			e.dibujarImagen(this.imagen2, this.x, this.y, 0,0.5);
+			e.dibujarImagen(this.imagen2, this.x, this.y, 0,0.41);
 		}
 
 		public void moverHacia(double px, double py) {
@@ -32,15 +32,8 @@ import entorno.Herramientas;
 		        double moverY = dy / distancia;
 		        this.x += moverX * Math.random();
 		        this.y += moverY * Math.random();
+		    }else {
+		    	alcanzoAlMago = true;
 		    }
 		}
-		public void alcanzoAlJugador(double px, double py,boolean estadoAtaque) {
-			double dx = px - this.x;
-		    double dy = py - this.y;
-		    double distancia = Math.sqrt(dx * dx + dy * dy);
-		    if (distancia < 10) {
-		    	estadoAtaque = true;
-		    }
-		    estadoAtaque = false;
-		}
-}
+	}

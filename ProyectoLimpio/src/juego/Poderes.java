@@ -1,19 +1,18 @@
 package juego;
 
-import java.awt.Color;
 import java.awt.Image;
 import entorno.Entorno;
 import entorno.Herramientas;
 
 public class Poderes {
-	Image imagenPoder1,imagenPoder2,imagenPoder3,imagenPoder4;
+	double x,y;
+	Image poder1;
+	int energia;
 	public Poderes() {
-		//imagenPoder1 = Herramientas.cargarImagen("Hielo.png");
-		imagenPoder2 = Herramientas.cargarImagen("BotonPoder2.png");
-		imagenPoder3 = Herramientas.cargarImagen("BotonPoder3.png");
-		imagenPoder4 = Herramientas.cargarImagen("BotonPoder4.png");
+		this.energia = 50;
+		poder1 = Herramientas.cargarImagen("BombaAgua.png");
 	}
-	public void dibujar(Entorno e) {
-		//e.dibujarCirculo(100, 100, 25, Color.RED);
+	public void dibujar(double x,double y,Entorno e) {
+		e.dibujarImagen(poder1,x, y, 0,0.2);
 	}
 }
