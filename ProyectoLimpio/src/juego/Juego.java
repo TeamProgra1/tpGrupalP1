@@ -39,8 +39,7 @@ public class Juego extends InterfaceJuego
 		this.izq = false;
 		this.estaSeleccionado = false;
 		this.estadoDelPoder = false;
-		double mouseX = entorno.mouseX();
-		double mouseY = entorno.mouseY();
+
 		
 		// Posicion de los Enemigos
 		for (int i = 0; i < enemigos.length ; i++) {
@@ -114,9 +113,12 @@ public class Juego extends InterfaceJuego
 			}		
 		}
 		seleccionPoderes();
-		if (estaSeleccionado == true & estadoDelPoder == true) {
-			this.poderes.dibujar(mouseX,mouseY,entorno);
-			estadoDelPoder = false;
+		if (this.estaSeleccionado == true) {
+			this.poderes.dibujar(entorno.mouseX(),entorno.mouseY(),entorno);
+		}else {
+			this.poderes.dibujar(entorno.mouseX(),entorno.mouseY(),entorno);
+		    this.estaSeleccionado = false;
+		    this.estadoDelPoder = true;
 		}
 		this.aba = false;
 		this.arr = false;
@@ -143,13 +145,13 @@ public class Juego extends InterfaceJuego
 		}
 	}
 	void seleccionPoderes() {
-		if (entorno.seLevantoBoton(entorno.BOTON_IZQUIERDO)){
-				if (mouseX >= b.x1 && mouseX <= b.ancho  && mouseY >= b.y1 && mouseY <= b.alto) {
-	            this.estaSeleccionado = true;
-	            this.estadoDelPoder = true;
+		if (entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO)){
+				if (entorno.mouseX() >= b.x1 && entorno.mouseX()  <= b.ancho && entorno.mouseY()  >= b.y1 && entorno.mouseY()  <= b.alto) {
+					this.estaSeleccionado = true;
+					this.estadoDelPoder = true;
 				}else {
-				this.estadoDelPoder = false;
-	        	this.estaSeleccionado = true;
+					this.estadoDelPoder = false;
+					this.estaSeleccionado = false;
 	        }
 	    }
 	}

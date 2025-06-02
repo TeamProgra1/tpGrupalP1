@@ -8,7 +8,7 @@ import entorno.Herramientas;
 
 public class Botonera {
 	Image botoneraPRINCIPAL,boton1,boton2,boton3,boton4,borde,fondoBotonera,botonPRINCIPAL,poderHielo,poderBolaFuego;
-	double ancho,alto,bordeSup,bordeInf,bordeDer,bordeIzq,escala;
+	double ancho,alto,escala;
 	double x1,y1,x2,y2;
 	public Botonera() {
 		fondoBotonera = Herramientas.cargarImagen("fondoBOTONERA.jpg");
@@ -17,12 +17,8 @@ public class Botonera {
 		boton1 = Herramientas.cargarImagen("BotonPoder1.png");
 		boton2 = Herramientas.cargarImagen("BotonPoder2.png");
 		escala = 0.2;
-		this.ancho = this.boton1.getWidth(null)/2*escala;
-		this.alto = this.boton1.getHeight(null)/2*escala;
-		this.bordeInf = y1 + this.alto / 2;
-		this.bordeSup = y1 - this.alto / 2;
-		this.bordeIzq = x1 - this.ancho / 2;
-		this.bordeDer = x1 + this.ancho / 2;
+		this.ancho = (this.boton1.getWidth(null)/2)*escala;
+		this.alto = (this.boton1.getHeight(null)/2)*escala;
 	}
 	public void dibujar(double x1,double y1,double x2,double y2,Entorno e) {
 		e.dibujarImagen(fondoBotonera, 910, 300, 0, 1);
